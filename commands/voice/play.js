@@ -24,11 +24,11 @@ module.exports = {
         //Render
         console.log("🎯 Slash command - Channel type:", interaction.channel?.type);
         console.log("🎯 Attempting to play song with text channel:", {
-            id: message.channel?.id,
-            type: message.channel?.type,
-            name: message.channel?.name
+            id: interaction.channel?.id,
+            type: interaction.channel?.type,
+            name: interaction.channel?.name
         });
-        
+
         // This uses DisTube to join + play automatically
         interaction.client.distube.play(voiceChannel, query, {
             textChannel: interaction.channel,
