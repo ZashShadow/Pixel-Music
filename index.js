@@ -29,7 +29,7 @@ client.distube = new DisTube(client, {
         new SpotifyPlugin(),
         new YouTubePlugin(),
         new YtDlpPlugin({
-            update: true,
+            // update: true,
             highWaterMark: 128 * 1024 * 1024,
             format: 'bestaudio',
             quality: 'highestaudio'
