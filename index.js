@@ -17,6 +17,10 @@ const { YouTubePlugin } = require('@distube/youtube');
 const { SpotifyPlugin } = require("@distube/spotify");
 const { YtDlpPlugin } = require('@distube/yt-dlp');
 
+//Disabling Plugin Updates
+process.env.YTSR_NO_UPDATE = '1';
+process.env.YTDL_NO_UPDATE = '1';
+
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
 
@@ -145,6 +149,17 @@ client.on(Events.InteractionCreate, async interaction => {
         }
     }
 
+});
+
+
+//WebServer For Render
+const express = require('express');
+const app = express();
+
+// Dummy web server for Render
+app.get('/', (req, res) => res.send('Bot is running!'));
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Web server started on port ${process.env.PORT || 3000}`);
 });
 
 // When the client is ready, run this code (only once).
