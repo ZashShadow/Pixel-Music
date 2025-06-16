@@ -8,7 +8,8 @@ const path = require('node:path');
 
 // Require the necessary discord.js classes
 const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
-const { token } = require('./config.json');
+require('dotenv').config();
+const token = process.env.bot_token;
 
 //Distube Classes
 const { DisTube } = require('distube');
