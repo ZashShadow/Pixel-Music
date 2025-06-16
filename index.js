@@ -47,7 +47,7 @@ client.distube
     })
     .on('error', (channel, error) => {
         console.error('❌ DisTube error:', error);
-        channel?.send(`❌ Error: ${error.message}`);
+        queue.textChannel?.send(`❌ Error: ${error.message}`);
     })
 
 //Listen to Discord JS Events, Just The VC This time
