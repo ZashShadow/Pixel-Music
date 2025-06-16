@@ -20,6 +20,15 @@ module.exports = {
         const query = interaction.options.getString("query");
         await interaction.reply(`🔍 Searching "${query}"...`);
 
+
+        //Render
+        console.log("🎯 Slash command - Channel type:", interaction.channel?.type);
+        console.log("🎯 Attempting to play song with text channel:", {
+            id: message.channel?.id,
+            type: message.channel?.type,
+            name: message.channel?.name
+        });
+        
         // This uses DisTube to join + play automatically
         interaction.client.distube.play(voiceChannel, query, {
             textChannel: interaction.channel,

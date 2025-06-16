@@ -2,6 +2,9 @@
 const ffmpegPath = require('ffmpeg-static');
 process.env.PATH = `${process.env.PATH};${ffmpegPath.replace(/ffmpeg\.exe$/, '')}`;
 
+//Render type shit
+const https = require('https');
+
 //Path
 const fs = require('node:fs');
 const path = require('node:path');
@@ -54,23 +57,18 @@ client.distube
     //     channel?.send(`❌ Error: ${error.message}`);
     // })
     .on('error', (channel, error) => {
-        // This event catches errors within DisTube operations.
-        console.error('❌ DisTube error:', error); // Log the full error object for detailed debugging.
+        console.error('❌ DisTube error:', error);
 
-        // Safely send an error message to the Discord channel if it exists.
-        // The error.message property provides a string description of the error.
-        // The `ReferenceError: queue is not defined` you were seeing was likely the `error.message` itself,
-        // indicating an internal DisTube issue with accessing a 'queue' object during playback.
-        if (channel) {
+        if (channel && typeof channel.send === 'function') {
             channel.send(`❌ An error occurred: \`\`\`${error.message}\`\`\``)
                 .catch(err => console.error("Error sending error message to channel:", err));
         } else {
-            // If there's no channel to send the error to (e.g., bot not in VC, or channel was deleted).
-            console.error("DisTube error occurred, but no channel was available to send the message.", error);
+            console.error("⚠️ Cannot send error message. 'channel' is not a valid TextChannel:", channel);
         }
     });
 
-    
+
+
 //Listen to Discord JS Events, Just The VC This time
 client.on('voiceStateUpdate', (oldState, newState) => {
     const voiceChannel = oldState.channel || newState.channel;
@@ -152,15 +150,29 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 
-//WebServer For Render
+
+
+//Render Experimental Code
+https.get('https://www.google.com', (res) => {
+    console.log('✅ Internet check OK - Google status:', res.statusCode);
+}).on('error', (e) => {
+    console.error('❌ Internet check failed:', e);
+});
+
+
+//WebServer For Render, Dummy web server for Render
 const express = require('express');
 const app = express();
-
-// Dummy web server for Render
 app.get('/', (req, res) => res.send('Bot is running!'));
 app.listen(process.env.PORT || 3000, () => {
-  console.log(`Web server started on port ${process.env.PORT || 3000}`);
+    console.log(`Web server started on port ${process.env.PORT || 3000}`);
 });
+
+
+
+
+
+
 
 // When the client is ready, run this code (only once).
 client.once(Events.ClientReady, readyClient => {
